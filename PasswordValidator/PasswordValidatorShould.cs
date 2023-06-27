@@ -18,12 +18,25 @@ public class PasswordValidatorShould
     [Fact]
     public void Contains_At_Least_An_Uppercase()
     {
-        PasswordValidator.IsValid("R").Should().BeFalse();
+        PasswordValidator.IsValid("CONTAINS_UPPERCASE_HERE").Should().BeFalse();
     }
     
     [Fact]
-    public void Contains_At_Least_An_Lowercase()
+    public void Contains_At_Least_A_Lowercase()
     {
-        PasswordValidator.IsValid("r").Should().BeFalse();
+        PasswordValidator.IsValid("contains_lowercase_here").Should().BeFalse();
+    }
+    
+    
+    [Fact]
+    public void Contains_At_Least_A_Number()
+    {
+        PasswordValidator.IsValid("1").Should().BeFalse();
+    }
+    
+    [Fact]
+    public void Contains_At_Least_An_Underscore()
+    {
+        PasswordValidator.IsValid("_").Should().BeFalse();
     }
 }
