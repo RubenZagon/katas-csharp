@@ -24,10 +24,27 @@ public class MarsRovers
     public void TurnLeft() => _facing.TurnLeft(this);
     public void TurnRight() => _facing.TurnRight(this);
     
-    public void Muf(Commands[] commands)
+    public void Muf(string[] commands)
     {
-        throw new NotImplementedException();
+        foreach (var command in commands)
+        {
+            switch (command.ToUpper())
+            {
+                case "F":
+                    Forward();
+                    break;
+                case "B":
+                    Backward();
+                    break;
+                case "L":
+                    TurnLeft();
+                    break;
+                case "R":
+                    TurnRight();
+                    break;
+                default:
+                    throw new CommandException(command);
+            }
+        }
     }
-
-
 }

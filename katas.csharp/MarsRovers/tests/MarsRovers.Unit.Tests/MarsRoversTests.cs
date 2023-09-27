@@ -130,4 +130,18 @@ public class MarsRoversTests
     }
     
     #endregion
+
+    #region M - Many
+    
+    [Fact]
+    public void move_when_received_many_commands()
+    {
+        var marsRovers = new MarsRovers(new Gps(0, 0), new FacingNorth());
+
+        marsRovers.Muf(new[] { "f", "f", "r", "f", "f", "l", "f", "f", "r", "r", "b", "l", "b" });
+
+        marsRovers.WhereYuAh().Should().Be(new Gps(1, 5));
+    }
+
+    #endregion
 }

@@ -14,26 +14,6 @@ while (true)
     Console.WriteLine(
         "Introduzca la secuencia de comandos (f para avanzar, b para retroceder, l para girar a la izquierda, r para girar a la derecha):");
     string commands = Console.ReadLine();
-
-    foreach (char command in commands)
-    {
-        switch (command)
-        {
-            case 'f':
-                rover.Forward();
-                break;
-            case 'b':
-                rover.Backward();
-                break;
-            case 'l':
-                rover.TurnLeft();
-                break;
-            case 'r':
-                rover.TurnRight();
-                break;
-            default:
-                Console.WriteLine("Comando no válido");
-                break;
-        }
-    }
+    
+    rover.Muf(commands.Select(c => c.ToString()).ToArray());
 }
