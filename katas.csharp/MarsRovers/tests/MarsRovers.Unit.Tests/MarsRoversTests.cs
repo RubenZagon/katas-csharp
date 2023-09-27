@@ -68,4 +68,23 @@ public class MarsRoversTests
         
         marsRovers.WhereYuAh().Should().Be(expectedPosition);
     }
+    
+    public static IEnumerable<object[]> BackwardData()
+    {
+        yield return new object[] { new FacingNorth(), new Gps(0, -1) };
+        yield return new object[] { new FacingSouth(), new Gps(0, 1) };
+        yield return new object[] { new FacingWest(), new Gps(1, 0) };
+        yield return new object[] { new FacingEast(), new Gps(-1, 0) };
+    }
+    
+    [Theory]
+    [MemberData(nameof(BackwardData))]
+    public void backward_change_position_based_on_facing(Facing initialFacing, Gps expectedPosition)
+    {
+        var marsRovers = new MarsRovers(new Gps(0, 0), initialFacing);
+
+        marsRovers.Backward();
+        
+        marsRovers.WhereYuAh().Should().Be(expectedPosition);
+    }
 }
