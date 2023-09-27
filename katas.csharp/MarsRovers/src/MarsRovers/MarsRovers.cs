@@ -1,4 +1,7 @@
-﻿namespace MarsRovers;
+﻿using System.Text.RegularExpressions;
+using static MarsRovers.Commands;
+
+namespace MarsRovers;
 
 public class MarsRovers
 {
@@ -10,41 +13,81 @@ public class MarsRovers
         _gps = gps ?? throw new GpsException();
         _facing = initialFacing ?? throw new FacingException();
     }
-
-    public Gps WhereYuAh() => _gps;
-    public char WhereLukin() => _facing.GetFacing();
     
-    public void SetFacing(Facing facing)
+    public void Move(IEnumerable<string> commands)
     {
-        _facing = facing;
+        Move(Map(commands));
     }
-
-    public void Forward() => _facing.Forward(ref _gps);
-    public void Backward() => _facing.Backward(ref _gps);
-    public void TurnLeft() => _facing.TurnLeft(this);
-    public void TurnRight() => _facing.TurnRight(this);
     
-    public void Muf(string[] commands)
+    public void Move(IEnumerable<Commands> commands)
     {
         foreach (var command in commands)
         {
-            switch (command.ToUpper())
+            switch (command)
             {
-                case "F":
-                    Forward();
+                case Forward:
+                    MoveForward();
                     break;
-                case "B":
-                    Backward();
+                case Backward:
+                    MoveBackward();
                     break;
-                case "L":
+                case Left:
                     TurnLeft();
                     break;
-                case "R":
+                case Right:
                     TurnRight();
                     break;
                 default:
-                    throw new CommandException(command);
+                    throw new CommandException(command.ToString());
             }
         }
     }
+
+    public Gps GetPosition() => _gps;
+    public char GetFacing() => _facing.GetFacing();
+    
+    /*
+     * Lo marco como internal para esconder el método SetFacing a los usuarios de la clase
+     * pero que sea visible para los estados
+     */
+    internal void SetFacing(Facing facing) => _facing = facing;
+    
+    /*
+     * Uso el "ref" para que el cambio de posición se aplique en el objeto _gps, no en una copia
+     */
+    private void MoveForward() => _facing.Forward(ref _gps);
+    private void MoveBackward() => _facing.Backward(ref _gps);
+    private void TurnLeft() => _facing.TurnLeft(this);
+    private void TurnRight() => _facing.TurnRight(this);
+    
+    private static readonly Dictionary<string, Commands> commandMap = new()
+    {
+        { "F", Forward },
+        { "B", Backward },
+        { "R", Right },
+        { "L", Left },
+    };
+    
+    private Commands[] Map(IEnumerable<string> commands)
+    {
+        Commands[] enumCommands = Array.Empty<Commands>();
+        try
+        {
+            enumCommands = commands.Select(letter => commandMap[letter.ToUpper()]).ToArray();
+        }
+        catch (KeyNotFoundException e)
+        {
+            var match = Regex.Match(e.Message, @"'(.+)'");
+            if (match.Success)
+            {
+                var missingKey = match.Groups[1].Value;
+                throw new CommandException(missingKey);
+            }
+
+            throw;
+        }
+
+        return enumCommands;
+    }
+
 }

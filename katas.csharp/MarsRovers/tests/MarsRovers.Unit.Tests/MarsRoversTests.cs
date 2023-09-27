@@ -1,3 +1,5 @@
+using static MarsRovers.Commands;
+
 namespace MarsRovers.Unit.Tests;
 
 public class MarsRoversTests
@@ -67,9 +69,9 @@ public class MarsRoversTests
     {
         var marsRovers = new MarsRovers(new Gps(0, 0), initialFacing);
 
-        marsRovers.TurnRight();
+        marsRovers.Move(new[] { Right });
         
-        marsRovers.WhereLukin().Should().Be(expectedFacing);
+        marsRovers.GetFacing().Should().Be(expectedFacing);
     }
     
     public static IEnumerable<object[]> TurnLeftData()
@@ -86,9 +88,9 @@ public class MarsRoversTests
     {
         var marsRovers = new MarsRovers(new Gps(0, 0), initialFacing);
 
-        marsRovers.TurnLeft();
+        marsRovers.Move(new[] { Left });
         
-        marsRovers.WhereLukin().Should().Be(expectedFacing);
+        marsRovers.GetFacing().Should().Be(expectedFacing);
     }
     
     public static IEnumerable<object[]> ForwardData()
@@ -105,9 +107,9 @@ public class MarsRoversTests
     {
         var marsRovers = new MarsRovers(new Gps(0, 0), initialFacing);
 
-        marsRovers.Forward();
+        marsRovers.Move(new[] { Forward });
         
-        marsRovers.WhereYuAh().Should().Be(expectedPosition);
+        marsRovers.GetPosition().Should().Be(expectedPosition);
     }
     
     public static IEnumerable<object[]> BackwardData()
@@ -124,9 +126,9 @@ public class MarsRoversTests
     {
         var marsRovers = new MarsRovers(new Gps(0, 0), initialFacing);
 
-        marsRovers.Backward();
+        marsRovers.Move(new[] { Backward });
         
-        marsRovers.WhereYuAh().Should().Be(expectedPosition);
+        marsRovers.GetPosition().Should().Be(expectedPosition);
     }
     
     #endregion
@@ -138,9 +140,9 @@ public class MarsRoversTests
     {
         var marsRovers = new MarsRovers(new Gps(0, 0), new FacingNorth());
 
-        marsRovers.Muf(new[] { "f", "f", "r", "f", "f", "l", "f", "f", "r", "r", "b", "l", "b" });
+        marsRovers.Move(new[] { "f", "f", "r", "f", "f", "l", "f", "f", "r", "r", "b", "l", "b" });
 
-        marsRovers.WhereYuAh().Should().Be(new Gps(1, 5));
+        marsRovers.GetPosition().Should().Be(new Gps(1, 5));
     }
 
     #endregion
@@ -152,7 +154,7 @@ public class MarsRoversTests
     {
         var marsRovers = new MarsRovers(new Gps(0, 0), new FacingNorth());
 
-        Action act = () => marsRovers.Muf(new[] { "x" });
+        Action act = () => marsRovers.Move(new[] { "x" });
 
         act.Should().Throw<CommandException>()
             .WithMessage("Invalid command received \"x\", please use only f, b, l or r");
