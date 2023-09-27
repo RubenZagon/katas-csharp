@@ -2,9 +2,12 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarsRovers", "MarsRovers\src\MarsRovers\MarsRovers.csproj", "{F848BA51-DAD7-400D-B4F3-A948712E1000}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarsRovers.Unit.Tests", "MarsRovers\tests\MarsRovers.Unit.Tests\MarsRovers.Unit.Tests.csproj", "{0396B71D-F165-4C04-98D7-B5ACC497ED06}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MarsRovers", "MarsRovers", "{BD5B24B1-67A4-4826-8E66-019C75D3609C}"
+	ProjectSection(SolutionItems) = preProject
+		MarsRovers\README.md = MarsRovers\README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarsRovers.Unit.Tests", "MarsRovers\MarsRovers.Unit.Tests\MarsRovers.Unit.Tests.csproj", "{73408E4D-444F-4F51-8483-292F25D64E26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,13 +19,13 @@ Global
 		{F848BA51-DAD7-400D-B4F3-A948712E1000}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F848BA51-DAD7-400D-B4F3-A948712E1000}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F848BA51-DAD7-400D-B4F3-A948712E1000}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0396B71D-F165-4C04-98D7-B5ACC497ED06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0396B71D-F165-4C04-98D7-B5ACC497ED06}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0396B71D-F165-4C04-98D7-B5ACC497ED06}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0396B71D-F165-4C04-98D7-B5ACC497ED06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73408E4D-444F-4F51-8483-292F25D64E26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73408E4D-444F-4F51-8483-292F25D64E26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73408E4D-444F-4F51-8483-292F25D64E26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73408E4D-444F-4F51-8483-292F25D64E26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F848BA51-DAD7-400D-B4F3-A948712E1000} = {BD5B24B1-67A4-4826-8E66-019C75D3609C}
-		{0396B71D-F165-4C04-98D7-B5ACC497ED06} = {BD5B24B1-67A4-4826-8E66-019C75D3609C}
+		{73408E4D-444F-4F51-8483-292F25D64E26} = {BD5B24B1-67A4-4826-8E66-019C75D3609C}
 	EndGlobalSection
 EndGlobal
