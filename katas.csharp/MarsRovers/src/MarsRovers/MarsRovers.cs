@@ -11,24 +11,23 @@ public class MarsRovers
         _facing = initialFacing;
     }
 
-
     public Gps WhereYuAh() => _gps;
-
     public char WhereLukin() => _facing.GetFacing();
-
-    public void Muf(Commands[] commands)
+    
+    public void SetFacing(Facing facing)
     {
-        throw new NotImplementedException();
-    }
-
-    public void SetState(Facing state)
-    {
-        _facing = state;
+        _facing = facing;
     }
 
     public void Forward() => _facing.Forward(ref _gps);
     public void Backward() => _facing.Backward(ref _gps);
     public void TurnLeft() => _facing.TurnLeft(this);
     public void TurnRight() => _facing.TurnRight(this);
+    
+    public void Muf(Commands[] commands)
+    {
+        throw new NotImplementedException();
+    }
+
 
 }
