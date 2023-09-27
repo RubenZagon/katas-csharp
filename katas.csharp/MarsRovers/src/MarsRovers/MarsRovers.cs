@@ -2,41 +2,33 @@
 
 public class MarsRovers
 {
-    private readonly Gps _gps;
-    private readonly Compass _compass;
+    private Gps _gps;
+    private Facing _facing;
 
-    public MarsRovers(Gps gps, Compass compass)
+    public MarsRovers(Gps gps, Facing initialFacing)
     {
         _gps = gps;
-        _compass = compass;
+        _facing = initialFacing;
     }
 
 
-    public Gps WhereYuAh()
-    {
-        return _gps;
-    }
+    public Gps WhereYuAh() => _gps;
 
-    public Facing WhereLukin()
-    {
-        return _compass.Feisin;
-    }
+    public char WhereLukin() => _facing.GetFacing();
 
     public void Muf(Commands[] commands)
     {
-        var first = commands[0];
-        switch (first)
-        {
-            case Commands.Forward:
-                _gps.IncrementY();
-                break;
-            case Commands.Right:
-                _compass.RotateRight();
-                break;
-            case Commands.Left:
-                _compass.RotateLeft();
-                break;
-        }
+        throw new NotImplementedException();
     }
-    
+
+    public void SetState(Facing state)
+    {
+        _facing = state;
+    }
+
+    public void Forward() => _facing.Forward(ref _gps);
+    public void Backward() => _facing.Backward(ref _gps);
+    public void TurnLeft() => _facing.TurnLeft(this);
+    public void TurnRight() => _facing.TurnRight(this);
+
 }
