@@ -30,4 +30,23 @@ public class MarsRoversTests
         
         marsRovers.WhereLukin().Should().Be(expectedFacing);
     }
+    
+    public static IEnumerable<object[]> TurnLeftData()
+    {
+        yield return new object[] { new FacingNorth(), 'W' };
+        yield return new object[] { new FacingEast(), 'N' };
+        yield return new object[] { new FacingSouth(), 'E' };
+        yield return new object[] { new FacingWest(), 'S' };
+    }
+    
+    [Theory]
+    [MemberData(nameof(TurnLeftData))]
+    public void turn_left(Facing initialFacing, char expectedFacing)
+    {
+        var marsRovers = new MarsRovers(new Gps(0, 0), initialFacing);
+
+        marsRovers.TurnLeft();
+        
+        marsRovers.WhereLukin().Should().Be(expectedFacing);
+    }
 }
