@@ -2,35 +2,30 @@ namespace MarsRovers;
 
 public class Gps
 {
-    private int x { get; set; }
-    private int y { get; set; }
+    public int X { get; }
+    public int Y { get; }
 
     public Gps(int x, int y)
     {
-        this.x = x;
-        this.y = y;
-    }
-
-    public void IncrementY()
-    {
-        y++;
+        X = x;
+        Y = y;
     }
 
     protected bool Equals(Gps other)
     {
-        return x == other.x && y == other.y;
+        return X == other.X && Y == other.Y;
     }
 
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != this.GetType()) return false;
+        if (obj.GetType() != GetType()) return false;
         return Equals((Gps)obj);
     }
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(x, y);
+        return HashCode.Combine(X, Y);
     }
 }
