@@ -144,4 +144,19 @@ public class MarsRoversTests
     }
 
     #endregion
+
+    #region E - Excersice Exception Behavior
+
+    [Fact]
+    public void fail_by_invalid_command()
+    {
+        var marsRovers = new MarsRovers(new Gps(0, 0), new FacingNorth());
+
+        Action act = () => marsRovers.Muf(new[] { "x" });
+
+        act.Should().Throw<CommandException>()
+            .WithMessage("Invalid command received \"x\", please use only f, b, l or r");
+    }
+    
+    #endregion
 }
