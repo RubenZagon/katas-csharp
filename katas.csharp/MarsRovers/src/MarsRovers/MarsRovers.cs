@@ -7,8 +7,8 @@ public class MarsRovers
 
     public MarsRovers(Gps gps, Facing initialFacing)
     {
-        _gps = gps;
-        _facing = initialFacing;
+        _gps = gps ?? throw new GpsException();
+        _facing = initialFacing ?? throw new FacingException();
     }
 
     public Gps WhereYuAh() => _gps;

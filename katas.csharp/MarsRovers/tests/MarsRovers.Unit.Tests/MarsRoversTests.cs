@@ -12,6 +12,47 @@ public class MarsRoversTests
    encounters an obstacle, the rover moves up to the last possible point, aborts the sequence and
    reports the obstacle.
  */
+    
+    /*
+     ZOMBIE Methodology for testing
+        Z - Zero
+        O - One
+        M - Many
+        B - Boundary Behavior
+        I - Interface Definition
+        E - Exercise Exception Behavior
+     */
+
+    #region Z - Zero
+
+    [Fact]
+    public void gps_is_invalid()
+    {
+        // Act
+        Action act = () => new MarsRovers(null, new FacingNorth());
+
+        // Assert
+        act.Should().Throw<GpsException>()
+            .WithMessage("Mars Rovers need a initial position, the gps can't be null");
+    }
+    
+    [Fact]
+    public void facing_is_invalid()
+    {
+        // Act
+        Action act = () => new MarsRovers(new Gps(0, 0), null);
+
+        // Assert
+        act.Should().Throw<FacingException>()
+            .WithMessage("Mars Rovers need a initial facing, the facing can't be null");
+    }
+
+    
+
+    #endregion
+
+    #region O - One
+    
     public static IEnumerable<object[]> TurnRightData()
     {
         yield return new object[] { new FacingNorth(), 'E' };
@@ -87,4 +128,6 @@ public class MarsRoversTests
         
         marsRovers.WhereYuAh().Should().Be(expectedPosition);
     }
+    
+    #endregion
 }
