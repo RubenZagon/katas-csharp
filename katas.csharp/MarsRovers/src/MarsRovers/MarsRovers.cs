@@ -1,5 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using static MarsRovers.Commands;
 
 namespace MarsRovers;
 
@@ -7,6 +6,14 @@ public class MarsRovers
 {
     private Gps _gps;
     private Facing _facing;
+    private static readonly Dictionary<string, Commands> CommandMap = new()
+    {
+        { "F", Commands.Forward },
+        { "B", Commands.Backward },
+        { "R", Commands.Right },
+        { "L", Commands.Left },
+    };
+
 
     public MarsRovers(Gps gps, Facing initialFacing)
     {
@@ -25,16 +32,16 @@ public class MarsRovers
         {
             switch (command)
             {
-                case Forward:
+                case Commands.Forward:
                     MoveForward();
                     break;
-                case Backward:
+                case Commands.Backward:
                     MoveBackward();
                     break;
-                case Left:
+                case Commands.Left:
                     TurnLeft();
                     break;
-                case Right:
+                case Commands.Right:
                     TurnRight();
                     break;
                 default:
@@ -56,24 +63,18 @@ public class MarsRovers
      * Uso el "ref" para que el cambio de posición se aplique en el objeto _gps, no en una copia
      */
     private void MoveForward() => _facing.Forward(ref _gps);
+
     private void MoveBackward() => _facing.Backward(ref _gps);
+    
     private void TurnLeft() => _facing.TurnLeft(this);
+    
     private void TurnRight() => _facing.TurnRight(this);
     
-    private static readonly Dictionary<string, Commands> commandMap = new()
+    private IEnumerable<Commands> Map(IEnumerable<string> commands)
     {
-        { "F", Forward },
-        { "B", Backward },
-        { "R", Right },
-        { "L", Left },
-    };
-    
-    private Commands[] Map(IEnumerable<string> commands)
-    {
-        Commands[] enumCommands = Array.Empty<Commands>();
         try
         {
-            enumCommands = commands.Select(letter => commandMap[letter.ToUpper()]).ToArray();
+            return commands.Select(letter => CommandMap[letter.ToUpper()]).ToArray();
         }
         catch (KeyNotFoundException e)
         {
@@ -86,8 +87,6 @@ public class MarsRovers
 
             throw;
         }
-
-        return enumCommands;
     }
 
 }
