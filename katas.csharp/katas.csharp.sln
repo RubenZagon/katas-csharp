@@ -11,6 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarsRovers.Unit.Tests", "Ma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleMarsRovers", "MarsRovers\src\ConsoleMarsRovers\ConsoleMarsRovers.csproj", "{6C1D05C1-9736-4E34-8FC3-77DDD8174947}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PasswordValidator", "PasswordValidator", "{5F2A8817-665E-4C01-9C53-C1E7B13B2DF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PassworValidator", "PasswordValidator\src\PassworValidator\PassworValidator.csproj", "{738399FC-F5E2-4831-9FBF-38F05DE00C4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PasswordValidator.Unit.Tests", "PasswordValidator\tests\PasswordValidator.Unit.Tests\PasswordValidator.Unit.Tests.csproj", "{F38E3ECD-1AC4-4127-9D91-7A365B6FC5D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +35,20 @@ Global
 		{6C1D05C1-9736-4E34-8FC3-77DDD8174947}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C1D05C1-9736-4E34-8FC3-77DDD8174947}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C1D05C1-9736-4E34-8FC3-77DDD8174947}.Release|Any CPU.Build.0 = Release|Any CPU
+		{738399FC-F5E2-4831-9FBF-38F05DE00C4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{738399FC-F5E2-4831-9FBF-38F05DE00C4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{738399FC-F5E2-4831-9FBF-38F05DE00C4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{738399FC-F5E2-4831-9FBF-38F05DE00C4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F38E3ECD-1AC4-4127-9D91-7A365B6FC5D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F38E3ECD-1AC4-4127-9D91-7A365B6FC5D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F38E3ECD-1AC4-4127-9D91-7A365B6FC5D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F38E3ECD-1AC4-4127-9D91-7A365B6FC5D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F848BA51-DAD7-400D-B4F3-A948712E1000} = {BD5B24B1-67A4-4826-8E66-019C75D3609C}
 		{73408E4D-444F-4F51-8483-292F25D64E26} = {BD5B24B1-67A4-4826-8E66-019C75D3609C}
 		{6C1D05C1-9736-4E34-8FC3-77DDD8174947} = {BD5B24B1-67A4-4826-8E66-019C75D3609C}
+		{738399FC-F5E2-4831-9FBF-38F05DE00C4B} = {5F2A8817-665E-4C01-9C53-C1E7B13B2DF4}
+		{F38E3ECD-1AC4-4127-9D91-7A365B6FC5D4} = {5F2A8817-665E-4C01-9C53-C1E7B13B2DF4}
 	EndGlobalSection
 EndGlobal
