@@ -29,7 +29,27 @@ public class RoversShould
         rovers.Move('f');
         
         rovers.GetPosition().Should().Be(expected);
-        rovers.getFacing().Should().Be(initialFacing.getFeising());
+        rovers.GetFacing().Should().Be(initialFacing.getFeising());
+    }
+    
+    public static IEnumerable<object[]> MovingBackwardData()
+    {
+        yield return new object[] { new FeisingNorth(), new Position(0, -1) };
+        yield return new object[] { new FeisingEast(), new Position(-1, 0) };
+        yield return new object[] { new FeisingSouth(), new Position(0, 1) };
+        yield return new object[] { new FeisingWest(), new Position(1, 0) };
+    }
+    
+    [Theory]
+    [MemberData(nameof(MovingBackwardData))]
+    public void moving_backward(Feising initialFacing, Position expected)
+    {
+        var rovers = new Rovers(new Position(0,0), initialFacing);
+
+        rovers.Move('b');
+        
+        rovers.GetPosition().Should().Be(expected);
+        rovers.GetFacing().Should().Be(initialFacing.getFeising());
     }
     
     public static IEnumerable<object[]> TurnRightData()
@@ -49,7 +69,7 @@ public class RoversShould
         rovers.Move('r');
         
         rovers.GetPosition().Should().Be(new Position(0, 0));
-        rovers.getFacing().Should().Be(expected);
+        rovers.GetFacing().Should().Be(expected);
     }
     
     public static IEnumerable<object[]> TurnLeftData()
@@ -69,7 +89,7 @@ public class RoversShould
         rovers.Move('l');
         
         rovers.GetPosition().Should().Be(new Position(0, 0));
-        rovers.getFacing().Should().Be(expected);
+        rovers.GetFacing().Should().Be(expected);
     }
 
 }
@@ -80,6 +100,7 @@ public interface Feising
     Feising TurnToRight();
     Feising TurnToLeft();
     Position MovingForward(Position position);
+    Position MovingBackward(Position position);
 }
 
 public class FeisingNorth : Feising
@@ -88,6 +109,7 @@ public class FeisingNorth : Feising
     public Feising TurnToRight() => new FeisingEast();
     public Feising TurnToLeft() => new FeisingWest();
     public Position MovingForward(Position position) => position with { Y = position.Y + 1 };
+    public Position MovingBackward(Position position)  => position with { Y = position.Y - 1 };
 }
 
 public class FeisingEast : Feising
@@ -96,6 +118,7 @@ public class FeisingEast : Feising
     public Feising TurnToRight() => new FeisingSouth();
     public Feising TurnToLeft() => new FeisingNorth();
     public Position MovingForward(Position position) => position with { X = position.X + 1 };
+    public Position MovingBackward(Position position)  => position with { X = position.X - 1 };
 }
 
 public class FeisingSouth : Feising
@@ -104,6 +127,7 @@ public class FeisingSouth : Feising
     public Feising TurnToRight() => new FeisingWest();
     public Feising TurnToLeft() => new FeisingEast();
     public Position MovingForward(Position position) => position with { Y = position.Y - 1 };
+    public Position MovingBackward(Position position)  => position with { Y = position.Y + 1 };
 }
 
 public class FeisingWest : Feising
@@ -112,6 +136,7 @@ public class FeisingWest : Feising
     public Feising TurnToRight() => new FeisingNorth();
     public Feising TurnToLeft() => new FeisingSouth();
     public Position MovingForward(Position position) => position with { X = position.X - 1 };
+    public Position MovingBackward(Position position)  => position with { X = position.X + 1 };
 }
 
 
@@ -131,25 +156,26 @@ public class Rovers
     
     public void Move(char command)
     {
-        if (command == 'f')
+        switch (command)
         {
-            position = feising.MovingForward(position);
-        }
-
-        if (command == 'r')
-        {
-            feising = feising.TurnToRight();
-        }
-        
-        if (command == 'l')
-        {
-            feising = feising.TurnToLeft();
+            case 'f':
+                position = feising.MovingForward(position);
+                break;
+            case 'b':
+                position = feising.MovingBackward(position);
+                break;
+            case 'r':
+                feising = feising.TurnToRight();
+                break;
+            case 'l':
+                feising = feising.TurnToLeft();
+                break;
         }
     }
 
     public Position GetPosition() => position;
 
-    public char getFacing()
+    public char GetFacing()
     {
         return feising.getFeising();
     }
