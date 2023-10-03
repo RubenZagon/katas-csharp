@@ -2,7 +2,7 @@ namespace MarsRovers.Unit.Tests;
 
 public class RoversShould
 {
-    /*
+    /*  Ari & Ruben  Road to BNC
  You are given the initial starting point (x,y) of a rover and the direction (N,S,E,W) it is facing.
    The rover receives a character array of commands.
    Implement commands that move the rover forward/backward (f,b).
@@ -32,7 +32,6 @@ public class RoversShould
         yield return new object[] { new FeisingWest(), 'N' };
     }
 
-    
     [Theory]
     [MemberData(nameof(TurnRightData))]
     public void turn_to_the_right_change_facing(Feising initialFacing, char expected)
@@ -45,6 +44,27 @@ public class RoversShould
         rovers.GetPositionY().Should().Be(0);
         rovers.getFacing().Should().Be(expected);
     }
+    
+    public static IEnumerable<object[]> TurnLeftData()
+    {
+        yield return new object[] { new FeisingNorth(), 'W' };
+        yield return new object[] { new FeisingEast(), 'N' };
+        yield return new object[] { new FeisingSouth(), 'E' };
+        yield return new object[] { new FeisingWest(), 'S' };
+    }
+
+    [Theory]
+    [MemberData(nameof(TurnLeftData))]
+    public void turn_to_the_left_change_facing(Feising initialFacing, char expected)
+    {
+        var rovers = new Rovers(new Position(0,0), initialFacing);
+
+        rovers.Move('l');
+        
+        rovers.GetPositionX().Should().Be(0);
+        rovers.GetPositionY().Should().Be(0);
+        rovers.getFacing().Should().Be(expected);
+    }
 
 }
 
@@ -52,30 +72,35 @@ public interface Feising
 {
     char getFeising();
     Feising TurnToRight();
+    Feising TurnToLeft();
 }
 
 public class FeisingNorth : Feising
 {
     public char getFeising() => 'N';
     public Feising TurnToRight() => new FeisingEast();
+    public Feising TurnToLeft() => new FeisingWest();
 }
 
 public class FeisingEast : Feising
 {
     public char getFeising() => 'E';
     public Feising TurnToRight() => new FeisingSouth();
+    public Feising TurnToLeft() => new FeisingNorth();
 }
 
 public class FeisingSouth : Feising
 {
     public char getFeising() => 'S';
     public Feising TurnToRight() => new FeisingWest();
+    public Feising TurnToLeft() => new FeisingEast();
 }
 
 public class FeisingWest : Feising
 {
     public char getFeising() => 'W';
     public Feising TurnToRight() => new FeisingNorth();
+    public Feising TurnToLeft() => new FeisingSouth();
 }
 
 
@@ -103,6 +128,11 @@ public class Rovers
         if (command == 'r')
         {
             feising = feising.TurnToRight();
+        }
+        
+        if (command == 'l')
+        {
+            feising = feising.TurnToLeft();
         }
     }
 
