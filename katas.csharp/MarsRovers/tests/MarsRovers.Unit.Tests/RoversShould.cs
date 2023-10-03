@@ -15,71 +15,110 @@ public class RoversShould
     [Fact]
     public void moving_forward()
     {
-        var rovers = new Rovers(new Position(0,0), 'N');
+        var rovers = new Rovers(new Position(0,0), new FeisingNorth());
 
-        rovers.move('f');
+        rovers.Move('f');
         
-        rovers.getPositionX().Should().Be(0);
-        rovers.getPositionY().Should().Be(1);
+        rovers.GetPositionX().Should().Be(0);
+        rovers.GetPositionY().Should().Be(1);
         rovers.getFacing().Should().Be('N');
     }
     
+    public static IEnumerable<object[]> TurnRightData()
+    {
+        yield return new object[] { new FeisingNorth(), 'E' };
+        yield return new object[] { new FeisingEast(), 'S' };
+        yield return new object[] { new FeisingSouth(), 'W' };
+        yield return new object[] { new FeisingWest(), 'N' };
+    }
+
+    
     [Theory]
-    [InlineData('N', 'E')]
-    //[InlineData('E', 'S')]
-    //[InlineData('S', 'W')]
-    //[InlineData('W', 'N')]
-    public void turn_to_the_right_change_facing(char initialFacing, char expected)
+    [MemberData(nameof(TurnRightData))]
+    public void turn_to_the_right_change_facing(Feising initialFacing, char expected)
     {
         var rovers = new Rovers(new Position(0,0), initialFacing);
 
-        rovers.move('r');
+        rovers.Move('r');
         
-        rovers.getPositionX().Should().Be(0);
-        rovers.getPositionY().Should().Be(0);
+        rovers.GetPositionX().Should().Be(0);
+        rovers.GetPositionY().Should().Be(0);
         rovers.getFacing().Should().Be(expected);
     }
 
 }
 
+public interface Feising
+{
+    char getFeising();
+    Feising TurnToRight();
+}
+
+public class FeisingNorth : Feising
+{
+    public char getFeising() => 'N';
+    public Feising TurnToRight() => new FeisingEast();
+}
+
+public class FeisingEast : Feising
+{
+    public char getFeising() => 'E';
+    public Feising TurnToRight() => new FeisingSouth();
+}
+
+public class FeisingSouth : Feising
+{
+    public char getFeising() => 'S';
+    public Feising TurnToRight() => new FeisingWest();
+}
+
+public class FeisingWest : Feising
+{
+    public char getFeising() => 'W';
+    public Feising TurnToRight() => new FeisingNorth();
+}
+
+
+
 public record Position(int X, int Y);
 
 public class Rovers
 {
-    private Position _position;
-    private char _facing;
+    private Position position;
+    private Feising feising;
 
-    public Rovers(Position position, char facing)
+    public Rovers(Position position, Feising feising)
     {
-        _facing = facing;
-        _position = position;
+        this.feising = feising;
+        this.position = position;
     }
     
-    public void move(char command)
+    public void Move(char command)
     {
         if (command == 'f')
         {
-            _position = new Position(0,1);
+            position = new Position(0,1);
         }
-        else
+
+        if (command == 'r')
         {
-            _facing = 'E';
+            feising = feising.TurnToRight();
         }
     }
 
-    public int getPositionX()
+    public int GetPositionX()
     {
         
-        return _position.X;
+        return position.X;
     }
 
-    public int getPositionY()
+    public int GetPositionY()
     {
-        return _position.Y;
+        return position.Y;
     }
 
     public char getFacing()
     {
-        return _facing;
+        return feising.getFeising();
     }
 }
