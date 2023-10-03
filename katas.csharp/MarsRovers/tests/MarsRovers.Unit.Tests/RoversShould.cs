@@ -19,8 +19,7 @@ public class RoversShould
 
         rovers.Move('f');
         
-        rovers.GetPositionX().Should().Be(0);
-        rovers.GetPositionY().Should().Be(1);
+        rovers.GetPosition().Should().Be(new Position(0, 1));
         rovers.getFacing().Should().Be('N');
     }
     
@@ -40,8 +39,7 @@ public class RoversShould
 
         rovers.Move('r');
         
-        rovers.GetPositionX().Should().Be(0);
-        rovers.GetPositionY().Should().Be(0);
+        rovers.GetPosition().Should().Be(new Position(0, 0));
         rovers.getFacing().Should().Be(expected);
     }
     
@@ -61,8 +59,7 @@ public class RoversShould
 
         rovers.Move('l');
         
-        rovers.GetPositionX().Should().Be(0);
-        rovers.GetPositionY().Should().Be(0);
+        rovers.GetPosition().Should().Be(new Position(0, 0));
         rovers.getFacing().Should().Be(expected);
     }
 
@@ -136,16 +133,7 @@ public class Rovers
         }
     }
 
-    public int GetPositionX()
-    {
-        
-        return position.X;
-    }
-
-    public int GetPositionY()
-    {
-        return position.Y;
-    }
+    public Position GetPosition() => position;
 
     public char getFacing()
     {
