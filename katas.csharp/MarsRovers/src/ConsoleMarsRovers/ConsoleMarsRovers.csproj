@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\tests\MarsRovers.Unit.Tests\MarsRovers.Unit.Tests.csproj" />
       <ProjectReference Include="..\MarsRovers\MarsRovers.csproj" />
     </ItemGroup>
 

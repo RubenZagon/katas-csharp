@@ -17,7 +17,7 @@ public class RoversShould
  Z -> Zero
  O -> One
  M -> Many
- B -> Bounderies 
+ B -> Boundaries 
  I -> 
  E -> 
  */
@@ -36,12 +36,12 @@ public class RoversShould
     [MemberData(nameof(MovingForwardData))]
     public void moving_forward(Feising initialFacing, Position expected)
     {
-        var rovers = new Rovers(new Position(0,0), initialFacing);
+        var controlPanel = new ControlPanel(new Position(0,0), initialFacing);
 
-        rovers.Move("f");
+        controlPanel.Move("f");
         
-        rovers.GetPosition().Should().Be(expected);
-        rovers.GetFacing().Should().Be(initialFacing.GetFeising());
+        controlPanel.GetPosition().Should().Be(expected);
+        controlPanel.GetFacing().Should().Be(initialFacing.GetFeising());
     }
     
     public static IEnumerable<object[]> MovingBackwardData()
@@ -59,12 +59,12 @@ public class RoversShould
     [MemberData(nameof(MovingBackwardData))]
     public void moving_backward(Feising initialFacing, Position expected)
     {
-        var rovers = new Rovers(new Position(0,0), initialFacing);
+        var controlPanel = new ControlPanel(new Position(0,0), initialFacing);
 
-        rovers.Move("b");
+        controlPanel.Move("b");
         
-        rovers.GetPosition().Should().Be(expected);
-        rovers.GetFacing().Should().Be(initialFacing.GetFeising());
+        controlPanel.GetPosition().Should().Be(expected);
+        controlPanel.GetFacing().Should().Be(initialFacing.GetFeising());
     }
     
     public static IEnumerable<object[]> TurnRightData()
@@ -79,7 +79,7 @@ public class RoversShould
     [MemberData(nameof(TurnRightData))]
     public void turn_to_the_right_change_facing(Feising initialFacing, char expected)
     {
-        var rovers = new Rovers(new Position(0,0), initialFacing);
+        var rovers = new ControlPanel(new Position(0,0), initialFacing);
 
         rovers.Move("r");
         
@@ -99,7 +99,7 @@ public class RoversShould
     [MemberData(nameof(TurnLeftData))]
     public void turn_to_the_left_change_facing(Feising initialFacing, char expected)
     {
-        var rovers = new Rovers(new Position(0,0), initialFacing);
+        var rovers = new ControlPanel(new Position(0,0), initialFacing);
 
         rovers.Move("l");
         
@@ -108,9 +108,9 @@ public class RoversShould
     }
     
     [Fact]
-    public void fack()
+    public void move_with_many_commands()
     {
-        var rovers = new Rovers(new Position(0,0), new FeisingNorth());
+        var rovers = new ControlPanel(new Position(0,0), new FeisingNorth());
 
         rovers.Move("lflffrb");
         
@@ -118,7 +118,57 @@ public class RoversShould
         rovers.GetFacing().Should().Be('W');
     }
 
+    [Fact]
+    public void use_radar()
+    {
+        var controlPanel = new ControlPanel(new Position(0,0), new FeisingNorth());
+        var radar = new Radar(new List<Obstacle> { new(new Position(0, 1)) });
+        var rovers = new Rovers(controlPanel, radar);
+        
+        rovers.Execute("ff");
+
+        rovers.GetPosition().Should().Be(new Position(0, 1));
+    }
+
 }
+
+public class Rovers
+{
+    private readonly ControlPanel controlPanel;
+    private readonly Radar radar;
+
+    public Rovers(ControlPanel controlPanel, Radar radar)
+    {
+        this.controlPanel = controlPanel;
+        this.radar = radar;
+    }
+
+    public void Execute(string commands)
+    {
+        foreach (var command in commands)
+        {
+            //GetPosition();
+            //Position nextPosition = controlPanel.GetNextPosition(command);
+            
+           // controlPanel.Move(commands, this);
+        }
+    }
+
+    public Position GetPosition()
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public class Radar
+{
+    public Radar(IEnumerable<Obstacle> obstacles)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public record Obstacle(Position Position);
 
 public interface Feising
 {
@@ -169,12 +219,12 @@ public class FeisingWest : Feising
 
 public record Position(int X, int Y);
 
-public class Rovers
+public class ControlPanel
 {
     private Position position;
     private Feising feising;
 
-    public Rovers(Position position, Feising feising)
+    public ControlPanel(Position position, Feising feising)
     {
         this.feising = feising;
         this.position = position;
@@ -207,5 +257,12 @@ public class Rovers
     public char GetFacing()
     {
         return feising.GetFeising();
+    }
+
+    public Feising GetState() => feising;
+
+    public Position GetNextPosition(char command)
+    {
+        return new Position(0, 0);
     }
 }
